@@ -6,8 +6,8 @@ function Home() {
   return (
     <div>
       <HeroSection />
-      <TrendingNews/>
-      <LocalNews/>
+      <TrendingNews />
+      <LocalNews />
     </div>
   );
 }

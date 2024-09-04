@@ -2,6 +2,10 @@ import { Link } from 'react-router-dom';
 import myimage from '../assets/myimage.jpg';
 
 function Navbar() {
+  
+
+ 
+
   return (
     <nav className="bg-[#1F1F1F] p-4 sticky top-0 z-50">
       <div className="container mx-auto flex justify-between items-center">
@@ -9,13 +13,16 @@ function Navbar() {
           <Link to="/">VCDN News</Link>
         </div>
 
-        <div className="w-full max-w-md">
+        {/* <div className="w-full max-w-md relative">
           <input
             type="text"
+            value={searchQuery}
+            onChange={handleSearch}
             placeholder="Search for topics"
-            className="w-full p-2 rounded-lg border border-gray-700 bg-[#2A2A2A] text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-red-500"
+            className="w-full p-2 rounded-lg border border-gray-700 bg-[#2A2A2A] text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-white-500"
           />
-        </div>
+          <FaSearch className="absolute top-3 right-4 text-gray-400" />
+        </div> */}
 
         <div className="flex space-x-8">
           <Link to="/" className="text-white hover:text-gray-300">Home</Link>
