@@ -17,9 +17,9 @@ const HeroSection = () => {
         const postsResponse = await axios.get('https://jsonplaceholder.typicode.com/posts');
         const photosResponse = await axios.get('https://jsonplaceholder.typicode.com/photos');
 
-        setPosts(postsResponse.data.slice(0, 10)); // Increased limit for more results
-        setPhotos(photosResponse.data.slice(0, 10)); // Increased limit for more results
-        setFilteredPosts(postsResponse.data.slice(0, 10));
+        setPosts(postsResponse.data.slice(0, 6));
+        setPhotos(photosResponse.data.slice(0, 6)); 
+        setFilteredPosts(postsResponse.data.slice(0, 6));
       } catch (error) {
         console.error('Error fetching data:', error);
       }
