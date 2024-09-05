@@ -1,4 +1,4 @@
-import { Link } from 'react-scroll'; // Import from react-scroll
+import { Link, animateScroll as scroller } from 'react-scroll'; // Import from react-scroll
 
 function Navbar() {
   return (
