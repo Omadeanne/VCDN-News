@@ -80,10 +80,10 @@ function ArticlePage() {
                 <div className="flex flex-col justify-center w-2/3">
                   <h1 className="text-3xl font-bold text-gray-900 mb-4">{post.title}</h1>
                   <p className="text-gray-700 mb-4">{post.body}</p>
-                  <p className="text-sm text-gray-500">Published: {new Date().toLocaleDateString()}</p>
+                  <p className="text-sm text-gray-400">Published: {new Date().toLocaleDateString()}</p>
                   <div className="mt-4">
-                    <h2 className="text-xl font-semibold text-gray-500">Author: {user.name}</h2>
-                    <p className="text-gray-500">Email: {user.email}</p>
+                    <h2 className="text-sm font-normal text-gray-500">Author: {user.name}</h2>
+                    <p className="text-gray-500 text-sm font-normal">Email: {user.email}</p>
                   </div>
                 </div>
               </div>

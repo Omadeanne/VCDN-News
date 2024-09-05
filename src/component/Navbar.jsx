@@ -4,7 +4,7 @@ function Navbar() {
   return (
     <nav className="bg-[#1F1F1F] p-4 sticky top-0 z-50">
       <div className="container mx-auto flex justify-between items-center">
-        <div className="text-white text-4xl font-bold">
+        <div className="text-white text-4xl font-bold cursor-pointer">
           <Link to="home" smooth={true} duration={500}>VCDN News</Link>
         </div>
 
