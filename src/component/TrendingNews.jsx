@@ -35,7 +35,7 @@ const trendingNews = [
 
 function TrendingNews() {
   return (
-    <section className="trending-news container mx-auto p-4">
+    <section id='trending-news' className="trending-news container mx-auto p-4">
      <h1 className="text-3xl font-bold text-red-500 ">Trending News</h1>
      <hr className="border-gray-400 w-1/2 mt-2 mb-8" />
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8">

@@ -10,7 +10,7 @@ const HeroSection = () => {
   const [filteredPosts, setFilteredPosts] = useState([]);
   const [searchQuery, setSearchQuery] = useState('');
 
-  // Fetch posts and photos from JSONPlaceholder API
+  // Fetching posts and photos from JSONPlaceholder API
   useEffect(() => {
     const fetchPostsAndPhotos = async () => {
       try {
@@ -46,48 +46,48 @@ const HeroSection = () => {
   ];
 
   return (
-    <section className="hero-section container mx-auto p-4">
+    <section id='home' className="hero-section container mx-auto p-4">
       <div className="mb-8">
         <h1 className="text-3xl font-bold text-red-500 mb-4">Hot Topics</h1>
         <input
           type="text"
           value={searchQuery}
           onChange={handleSearch}
-          placeholder="Search news..."
+          placeholder="Search News"
           className="w-full md:w-1/2 lg:w-1/3 p-2 border border-gray-300 rounded mb-4"
         />
         <hr className="border-gray-400 w-full mb-4" />
       </div>
 
-      <div className="space-y-4">
-        {filteredPosts.reduce((acc, post, index) => {
-          if (index % 2 === 0) {
-            acc.push([post]);
-          } else {
-            acc[acc.length - 1].push(post);
-          }
-          return acc;
-        }, []).map((row, rowIndex) => (
-          <div key={rowIndex} className="flex flex-col md:flex-row md:space-x-4 mb-4">
-            {row.map((post, postIndex) => (
-              <div
-                key={post.id}
-                className={`flex ${postIndex % 2 === 0 ? 'md:flex-row' : 'md:flex-row'} w-full border shadow-md p-4 items-center space-x-4`}
-              >
-                <img
-                  src={photos[postIndex]?.thumbnailUrl}
-                  alt={post.title}
-                  className="w-1/2 h-full object-cover rounded-lg"
-                />
-                <div className="flex flex-col justify-center w-1/2">
-                  <h2 className=" text-xl font-semibold text-gray-900 mb-2">{post.title}</h2>
-                  <p className="text-gray-700 mb-4">{post.body}</p>
-                  <Link to={`/news/${post.id}`} className="text-blue-500 hover:underline">Read More</Link>
-                </div>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div className="space-y-4">
+          {filteredPosts.slice(0, 2).map((post, index) => (
+            <article key={post.id} className="flex items-start p-4 bg-white shadow-md rounded-lg">
+              <img src={photos[index]?.thumbnailUrl} alt={post.title} className="w-96 h-56 object-cover rounded-lg mr-4" />
+              <div className="flex flex-col w-full">
+                <h2 className="text-xl font-semibold text-gray-900 mb-2">{post.title}</h2>
+                <p className="text-gray-700">{post.body}</p>
+                {/* Link to the article page with the post ID */}
+                <Link to={`/readMore/${post.id}`} className="text-blue-500 hover:underline mt-4">Read More</Link>
               </div>
+            </article>
+          ))}
+        </div>
+
+        <div className="grid grid-cols-1 gap-4">
+          {filteredPosts.slice(2).map((post, index) => (
+            <article key={post.id} className="flex items-start p-4 bg-white shadow-md rounded-lg">
+              <img src={photos[index]?.thumbnailUrl} alt={post.title} className="w-48 h-32 rounded-lg object-cover mr-4" />
+              <div className="flex flex-col w-full">
+                <h2 className="text-xl font-semibold text-gray-900 mb-2">{post.title}</h2>
+                <p className="text-gray-700">{post.body}</p>
+                {/* Link to the article page with the post ID */}
+                <Link to={`/readMore/${post.id}`} className="text-blue-500 hover:underline mt-4">Read More</Link>
+              </div>
+            </article>
             ))}
           </div>
-        ))}
+        
       </div>
 
       <div className="my-8">
