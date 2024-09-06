@@ -6,26 +6,33 @@ import axios from 'axios';
 
 const HeroSection = () => {
   const [posts, setPosts] = useState([]);
-  const [photos, setPhotos] = useState([]);
   const [filteredPosts, setFilteredPosts] = useState([]);
   const [searchQuery, setSearchQuery] = useState('');
 
-  // Fetching posts and photos from JSONPlaceholder API
+  // Use specific URLs for images
+  const photoUrls = [
+    'https://dailypost.ng/wp-content/uploads/2019/07/Fuel-560x600.jpg',
+    'https://dailypost.ng/wp-content/uploads/2023/06/Asiwaju-Bola-Tinubu-10-590x354.jpg',
+    'https://dailypost.ng/wp-content/uploads/2022/12/naira-590x354.jpg',
+    'https://dailypost.ng/wp-content/uploads/2024/01/Dangote-refinery-2.jpg',
+    'https://dailypost.ng/wp-content/uploads/2022/01/Kumuyi-.jpg',
+    'https://dailypost.ng/wp-content/uploads/2024/03/Shettima.jpeg'
+  ];
+
+  // Fetching posts from JSONPlaceholder API
   useEffect(() => {
-    const fetchPostsAndPhotos = async () => {
+    const fetchPosts = async () => {
       try {
         const postsResponse = await axios.get('https://jsonplaceholder.typicode.com/posts');
-        const photosResponse = await axios.get('https://jsonplaceholder.typicode.com/photos');
 
         setPosts(postsResponse.data.slice(0, 6));
-        setPhotos(photosResponse.data.slice(0, 6)); 
         setFilteredPosts(postsResponse.data.slice(0, 6));
       } catch (error) {
         console.error('Error fetching data:', error);
       }
     };
 
-    fetchPostsAndPhotos();
+    fetchPosts();
   }, []);
 
   // Handle search input and filter posts
@@ -46,7 +53,7 @@ const HeroSection = () => {
   ];
 
   return (
-    <section id='home' className="hero-section container mx-auto p-4">
+    <section className="hero-section container mx-auto p-4">
       <div className="mb-8">
         <h1 className="text-3xl font-bold text-red-500 mb-4">Hot Topics</h1>
         <input
@@ -63,11 +70,10 @@ const HeroSection = () => {
         <div className="space-y-4">
           {filteredPosts.slice(0, 2).map((post, index) => (
             <article key={post.id} className="flex items-start p-4 bg-white shadow-md rounded-lg">
-              <img src={photos[index]?.thumbnailUrl} alt={post.title} className="w-96 h-56 object-cover rounded-lg mr-4" />
+              <img src={photoUrls[index]} alt={post.title} className="w-96 h-56 object-cover rounded-lg mr-4" />
               <div className="flex flex-col w-full">
                 <h2 className="text-xl font-semibold text-gray-900 mb-2">{post.title}</h2>
                 <p className="text-gray-700">{post.body}</p>
-                {/* Link to the article page with the post ID */}
                 <Link to={`/readMore/${post.id}`} className="text-blue-500 hover:underline mt-4">Read More</Link>
               </div>
             </article>
@@ -77,17 +83,15 @@ const HeroSection = () => {
         <div className="grid grid-cols-1 gap-4">
           {filteredPosts.slice(2).map((post, index) => (
             <article key={post.id} className="flex items-start p-4 bg-white shadow-md rounded-lg">
-              <img src={photos[index]?.thumbnailUrl} alt={post.title} className="w-48 h-32 rounded-lg object-cover mr-4" />
+              <img src={photoUrls[index + 2]} alt={post.title} className="w-48 h-32 rounded-lg object-cover mr-4" />
               <div className="flex flex-col w-full">
                 <h2 className="text-xl font-semibold text-gray-900 mb-2">{post.title}</h2>
                 <p className="text-gray-700">{post.body}</p>
-                {/* Link to the article page with the post ID */}
                 <Link to={`/readMore/${post.id}`} className="text-blue-500 hover:underline mt-4">Read More</Link>
               </div>
             </article>
-            ))}
-          </div>
-        
+          ))}
+        </div>
       </div>
 
       <div className="my-8">

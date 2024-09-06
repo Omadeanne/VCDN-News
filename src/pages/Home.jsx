@@ -1,6 +1,6 @@
 import HeroSection from '../component/HeroSection';
-import TrendingNews from '../component/TrendingNews';
-import LocalNews from '../component/LocalNews';
+import TrendingNews from './TrendingNews';
+import LocalNews from './LocalNews';
 
 function Home() {
   return (
