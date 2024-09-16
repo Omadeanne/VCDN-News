@@ -9,7 +9,7 @@ const HeroSection = () => {
   const [filteredPosts, setFilteredPosts] = useState([]);
   const [searchQuery, setSearchQuery] = useState('');
 
-  // Use specific URLs for images
+  // specific URLs for images
   const photoUrls = [
     'https://dailypost.ng/wp-content/uploads/2019/07/Fuel-560x600.jpg',
     'https://dailypost.ng/wp-content/uploads/2023/06/Asiwaju-Bola-Tinubu-10-590x354.jpg',
@@ -24,7 +24,6 @@ const HeroSection = () => {
     const fetchPosts = async () => {
       try {
         const postsResponse = await axios.get('https://jsonplaceholder.typicode.com/posts');
-
         setPosts(postsResponse.data.slice(0, 6));
         setFilteredPosts(postsResponse.data.slice(0, 6));
       } catch (error) {
@@ -38,7 +37,6 @@ const HeroSection = () => {
   // Handle search input and filter posts
   const handleSearch = (e) => {
     setSearchQuery(e.target.value);
-
     const filtered = posts.filter((post) =>
       post.title.toLowerCase().includes(e.target.value.toLowerCase()) ||
       post.body.toLowerCase().includes(e.target.value.toLowerCase())
@@ -74,7 +72,13 @@ const HeroSection = () => {
               <div className="flex flex-col w-full">
                 <h2 className="text-xl font-semibold text-gray-900 mb-2">{post.title}</h2>
                 <p className="text-gray-700">{post.body}</p>
-                <Link to={`/readMore/${post.id}`} className="text-blue-500 hover:underline mt-4">Read More</Link>
+                <Link
+                  to={`/readMore/${post.id}`}
+                  state={{ imageUrl: photoUrls[index] }} // Pass the image URL as state
+                  className="text-blue-500 hover:underline mt-4"
+                >
+                  Read More
+                </Link>
               </div>
             </article>
           ))}
@@ -87,7 +91,13 @@ const HeroSection = () => {
               <div className="flex flex-col w-full">
                 <h2 className="text-xl font-semibold text-gray-900 mb-2">{post.title}</h2>
                 <p className="text-gray-700">{post.body}</p>
-                <Link to={`/readMore/${post.id}`} className="text-blue-500 hover:underline mt-4">Read More</Link>
+                <Link
+                  to={`/readMore/${post.id}`}
+                  state={{ imageUrl: photoUrls[index + 2] }} // Pass the image URL as state
+                  className="text-blue-500 hover:underline mt-4"
+                >
+                  Read More
+                </Link>
               </div>
             </article>
           ))}
@@ -95,7 +105,7 @@ const HeroSection = () => {
       </div>
 
       <div className="my-8">
-        <h2 className="text-xl font-bold text-gray-500 mb-4">Sponsored Ads</h2>
+        <h2 className="text-sm font-light text-gray-500 mb-4">Advertisement</h2>
         <Splide
           options={{
             type: 'loop',
@@ -110,7 +120,7 @@ const HeroSection = () => {
           {ads.map((ad) => (
             <SplideSlide key={ad.id}>
               <Link to={ad.link}>
-                <img src={ad.image} alt={`Ad ${ad.id}`} className="w-full h-64 object-cover rounded-lg shadow-lg" />
+                <img src={ad.image} alt={`Ad ${ad.id}`} className="w-full h-full object-cover rounded-lg shadow-lg" />
               </Link>
             </SplideSlide>
           ))}

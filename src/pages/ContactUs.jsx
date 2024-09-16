@@ -1,4 +1,3 @@
-// src/pages/ContactForm.jsx
 import { useState } from 'react';
 
 const ContactForm = () => {
@@ -140,7 +139,7 @@ const ContactForm = () => {
         </div>
         <button type="submit" className="w-full bg-red-500 text-white p-2 rounded hover:bg-red-600">Submit</button>
         <p className="text-gray-500 text-sm mt-4">
-          By submitting your details, you are agreeing to receive communications about Reuters resources, events, products, or services. By submitting your details, you are also acknowledging that you have read and understood our <a href="/privacy-policy" className="text-blue-500 hover:underline">Privacy Statement</a>.
+          By submitting your details, you are agreeing to receive communications about <span className='font-black text-black'>VCDN News</span>  resources, events, products, or services. By submitting your details, you are also acknowledging that you have read and understood our <a href="/privacy-policy" className="text-blue-500 hover:underline">Privacy Statement</a>.
         </p>
       </form>
     </div>
