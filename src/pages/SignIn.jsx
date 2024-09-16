@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import googlepng from '../assets/google.png';
+// import googlepng from '../assets/google.png';
 
 
 const SignIn = () => {
@@ -9,6 +9,10 @@ const SignIn = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+
+    if (rememberMe) {
+      localStorage.setItem('rememberMe', JSON.stringify({ email, password }));
+    }
 
     alert(`Signing in with Email: ${email}`);
     console.log(`Email: ${email}, Password: ${password}, Remember Me: ${rememberMe}`);
@@ -50,24 +54,24 @@ const SignIn = () => {
               />
               <span className="ml-2 text-sm font-normal">Remember me</span>
             </label>
-            <div className="text-sm font-normal">
+            {/* <div className="text-sm font-normal">
               Forgot Password?
               <span className="text-blue-500 cursor-pointer ml-2 hover:text-indigo-950">
                 Click here
               </span>
-            </div>
+            </div> */}
           </div>
           <button type="submit" className="w-full bg-red-500 text-white py-2 px-4 rounded mx-auto">
             Sign In
           </button>
          
-          <button
+          {/* <button
             type="button"
             className="flex items-center justify-center w-full bg-gray-500 text-white py-2 px-4 rounded mx-auto"
           >
              <img src={googlepng} alt="Google Icon" className="w-5 h-5 mr-2" />
             Sign In with Google
-          </button>
+          </button> */}
         </form>
       </div>
     </div>
