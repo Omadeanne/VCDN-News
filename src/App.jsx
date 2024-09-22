@@ -7,9 +7,11 @@ import SignIn from './pages/SignIn';
 import Register from './pages/Register';
 import ContactUs from './pages/ContactUs';
 import ArticlePage from './pages/ArticlePage';
+import { AuthProvider } from './component/AuthContext';
 
 function App() {
   return (
+    <AuthProvider>
     <Routes>
       <Route path="/" element={<Layout />}>
         {/* Home Page */}
@@ -23,6 +25,7 @@ function App() {
         <Route path="/readMore/:postId" element={<ArticlePage />} />
       </Route>
     </Routes>
+    </AuthProvider>
   );
 }
 

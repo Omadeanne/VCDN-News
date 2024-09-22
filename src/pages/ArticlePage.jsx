@@ -1,19 +1,24 @@
-import { useEffect, useState } from 'react';
-import { useParams, useLocation } from 'react-router-dom';
+import { useEffect, useState, useContext } from 'react'; 
+import { useParams, useLocation, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { FaComment } from 'react-icons/fa';
+import AuthContext from '../component/AuthContext';
 
 function ArticlePage() {
-  const { postId } = useParams(); // Get the postId from the URL
-  const location = useLocation(); // Use useLocation to retrieve passed state
+  const { postId } = useParams();
+  const location = useLocation();
+  const navigate = useNavigate();
   const [post, setPost] = useState(null);
   const [user, setUser] = useState(null);
-  const [photo] = useState(location.state?.imageUrl || ''); // Use the passed image URL from state
-  const [comments, setComments] = useState([]); // State for storing fetched comments
-  const [newComment, setNewComment] = useState(''); // State for new comment
-  const [showCommentBox, setShowCommentBox] = useState(false); // State for comment box visibility
+  const [photo] = useState(location.state?.imageUrl || '');
+  const [comments, setComments] = useState([]);
+  const [newComment, setNewComment] = useState('');
+  const [showCommentBox, setShowCommentBox] = useState(false);
+  const { isAuthenticated } = useContext(AuthContext); // Access the authentication status
+  const [showAuthModal, setShowAuthModal] = useState(false);
 
-  // Fetch post and user details
+  const sectionTitle = location.state?.sectionTitle || 'Hot Topics';
+
   useEffect(() => {
     const fetchPostData = async () => {
       try {
@@ -23,7 +28,7 @@ function ArticlePage() {
 
         setPost(postResponse.data);
         setUser(userResponse.data);
-        setComments(commentsResponse.data); // Set fetched comments
+        setComments(commentsResponse.data);
       } catch (error) {
         console.error('Error fetching data:', error);
       }
@@ -32,7 +37,14 @@ function ArticlePage() {
     fetchPostData();
   }, [postId]);
 
-  // Handle new comment submission
+  const handleCommentClick = () => {
+    if (!isAuthenticated) {
+      setShowAuthModal(true);
+    } else {
+      setShowCommentBox(!showCommentBox);
+    }
+  };
+
   const handleCommentSubmit = (e) => {
     e.preventDefault();
     
@@ -40,16 +52,20 @@ function ArticlePage() {
 
     // Add the new comment to the local state
     const newCommentObj = {
-      postId: postId, // Add the current postId
+      postId: postId,
       body: newComment,
-      name: 'User',
-      email: 'user@example.com',
+      name: 'User', // Replace with the actual user name if available
+      email: 'user@example.com', // Replace with actual email if available
       id: comments.length + 1, // Temporary ID for the new comment
     };
 
     // Update the comments state locally
     setComments([...comments, newCommentObj]);
     setNewComment(''); // Reset the input field
+  };
+
+  const closeModal = () => {
+    setShowAuthModal(false);
   };
 
   // Ads for the right side
@@ -59,93 +75,116 @@ function ArticlePage() {
   ];
 
   return (
-    <div>
-      <div className="container mx-auto p-4 grid grid-cols-1 md:grid-cols-3 gap-8">
-        {/* Main Content */}
-        <div className="col-span-2">
-          <h1 className="text-3xl font-bold text-red-500 mb-4">Hot Topics</h1>
-          <hr className="border-gray-400 w-full mb-4" />
+    <div className="container mx-auto p-4 grid grid-cols-1 md:grid-cols-3 gap-8">
+      {/* Main Content */}
+      <div className="col-span-2">
+        <h1 className="text-3xl font-bold text-red-500 mb-4">{sectionTitle}</h1>
+        <hr className="border-gray-400 w-full mb-4" />
 
-          {post && user && (
-            <>
-              <div className="flex space-x-4 mb-8">
-                {/* Left Side: Photo */}
-                <img
-                  src={photo} // Use the passed image URL
-                  alt={post.title}
-                  className="w-1/3 h-full object-cover rounded-lg"
-                />
-                {/* Right Side: Post Content */}
-                <div className="flex flex-col justify-center w-2/3">
-                  <h1 className="text-3xl font-bold text-gray-900 mb-4">{post.title}</h1>
-                  <p className="text-gray-700 mb-4">{post.body}</p>
-                  <p className="text-sm text-gray-400">Published: {new Date().toLocaleDateString()}</p>
-                  <div className="mt-4">
-                    <h2 className="text-sm font-normal text-gray-500">Author: {user.name}</h2>
-                    <p className="text-gray-500 text-sm font-normal">Email: {user.email}</p>
-                  </div>
+        {post && user && (
+          <>
+            <div className="flex space-x-4 mb-8">
+              <img
+                src={photo}
+                alt={post.title}
+                className="w-1/3 h-full object-cover rounded-lg"
+              />
+              <div className="flex flex-col justify-center w-2/3">
+                <h1 className="text-3xl font-bold text-gray-900 mb-4">{post.title}</h1>
+                <p className="text-gray-700 mb-4">{post.body}</p>
+                <p className="text-sm text-gray-400">Published: {new Date().toLocaleDateString()}</p>
+                <div className="mt-4">
+                  <h2 className="text-sm font-normal text-gray-500">Author: {user.name}</h2>
+                  <p className="text-gray-500 text-sm font-normal">Email: {user.email}</p>
                 </div>
               </div>
+            </div>
 
-              {/* Comment Section */}
-              <div className="flex justify-between items-center my-4">
-                <div className="flex space-x-4">
+            {/* Comment Section */}
+            <div className="flex justify-between items-center my-4">
+              <div className="flex space-x-4">
+                <button
+                  className="flex items-center text-gray-700 hover:text-red-500"
+                  onClick={handleCommentClick}
+                >
+                  <FaComment className="mr-2" /> Comment
+                </button>
+              </div>
+            </div>
+
+            {showCommentBox && (
+              <div>
+                <h2 className="text-xl font-semibold text-gray-900 mb-4">Comments</h2>
+
+                <div className="space-y-4 mb-8">
+                  {comments.map((comment) => (
+                    <div key={comment.id} className="bg-gray-100 p-4 rounded-lg shadow">
+                      <p className="font-semibold text-gray-900">{comment.name}</p>
+                      <p className="text-gray-700">{comment.body}</p>
+                      <p className="text-gray-500 text-sm">{comment.email}</p>
+                    </div>
+                  ))}
+                </div>
+
+                <form onSubmit={handleCommentSubmit}>
+                  <textarea
+                    className="w-full p-2 border border-gray-300 rounded-lg mb-4"
+                    value={newComment}
+                    onChange={(e) => setNewComment(e.target.value)}
+                    placeholder="Add a comment..."
+                    rows="4"
+                  ></textarea>
                   <button
-                    className="flex items-center text-gray-700 hover:text-red-500"
-                    onClick={() => setShowCommentBox(!showCommentBox)}
+                    type="submit"
+                    className="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 transition-colors duration-300"
                   >
-                    <FaComment className="mr-2" /> Comment
+                    Submit Comment
                   </button>
-                </div>
+                </form>
               </div>
-
-              {/* Comment Box */}
-              {showCommentBox && (
-                <div>
-                  <h2 className="text-xl font-semibold text-gray-900 mb-4">Comments</h2>
-
-                  {/* Display fetched comments */}
-                  <div className="space-y-4 mb-8">
-                    {comments.map((comment) => (
-                      <div key={comment.id} className="bg-gray-100 p-4 rounded-lg shadow">
-                        <p className="font-semibold text-gray-900">{comment.name}</p>
-                        <p className="text-gray-700">{comment.body}</p>
-                        <p className="text-gray-500 text-sm">{comment.email}</p>
-                      </div>
-                    ))}
-                  </div>
-
-                  {/* Adding New Comment */}
-                  <form onSubmit={handleCommentSubmit}>
-                    <textarea
-                      className="w-full p-2 border border-gray-300 rounded-lg mb-4"
-                      value={newComment}
-                      onChange={(e) => setNewComment(e.target.value)}
-                      placeholder="Add a comment..."
-                      rows="4"
-                    ></textarea>
-                    <button
-                      type="submit"
-                      className="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 transition-colors duration-300"
-                    >
-                      Submit Comment
-                    </button>
-                  </form>
-                </div>
-              )}
-            </>
-          )}
-        </div>
-
-        {/* Right Side: Ads */}
-        <div className="col-span-1 space-y-4">
-          {ads.map((ad) => (
-            <a href={ad.link} key={ad.id} target="_blank" rel="noopener noreferrer">
-              <img src={ad.image} alt={`Ad ${ad.id}`} className="w-full h-60 object-cover rounded-lg shadow-lg my-14" />
-            </a>
-          ))}
-        </div>
+            )}
+          </>
+        )}
       </div>
+
+      {/* Right Side: Ads */}
+      <div className="col-span-1 space-y-4">
+        {ads.map((ad) => (
+          <a href={ad.link} key={ad.id} target="_blank" rel="noopener noreferrer">
+            <img src={ad.image} alt={`Ad ${ad.id}`} className="w-full h-60 object-cover rounded-lg shadow-lg my-14" />
+          </a>
+        ))}
+      </div>
+
+      {/* Authentication Modal */}
+      {showAuthModal && (
+        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
+          <div className="bg-white p-8 rounded-lg shadow-lg">
+            <h2 className="text-2xl font-bold mb-4">Sign In or Register</h2>
+            <p className="mb-4">You must sign in or register to leave a comment.</p>
+            <div className="space-x-4">
+              <button
+                onClick={() => navigate('/sign-in')}
+                className="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600"
+              >
+                Sign In
+              </button>
+              <button
+                onClick={() => navigate('/register')}
+                className="bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-600"
+              >
+                Register
+              </button>
+            </div>
+            <button
+              onClick={closeModal}
+              className="mt-4 bg-gray-300 text-gray-800 px-4 py-2 rounded-lg hover:bg-gray-400"
+            >
+              Close
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

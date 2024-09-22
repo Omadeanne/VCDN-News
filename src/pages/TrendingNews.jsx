@@ -53,7 +53,13 @@ const TrendingNews = () => {
               <div className="flex flex-col w-full">
                 <h3 className="text-xl font-semibold text-gray-900 mb-2">{post.title}</h3>
                 <p className="text-gray-700 mb-2">{post.body}</p>
-                <Link to={`/readMore/${post.id}`} className="text-blue-500 hover:underline">Read More</Link>
+                <Link 
+  to={`/readMore/${post.id}`} 
+  state={{ sectionTitle: 'Trending News', imageUrl: photoUrls[index % photoUrls.length] }} 
+  className="text-blue-500 hover:underline"
+>
+  Read More
+</Link>
               </div>
             </article>
           ))}

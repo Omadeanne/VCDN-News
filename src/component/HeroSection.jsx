@@ -50,9 +50,15 @@ const HeroSection = () => {
     { id: 3, image: 'https://s.adroll.com/a/WZZ/TUS/WZZTUSZR25GCJBXPA6QYPZ.png', link: '#' },
   ];
 
+  const adsSecondCarousel = [
+    { id: 3, image: 'https://tpc.googlesyndication.com/simgad/2321749211834189627', link: '#' },
+    { id: 2, image: 'https://tpc.googlesyndication.com/simgad/17704820894939281964', link: '#' },
+    { id: 1, image: 'https://s.adroll.com/a/WZZ/TUS/WZZTUSZR25GCJBXPA6QYPZ.png', link: '#' },
+  ];
+
   return (
     <section className="hero-section container mx-auto p-4">
-      <div className="mb-8">
+      <div className="">
         <h1 className="text-3xl font-bold text-red-500 mb-4">Hot Topics</h1>
         <input
           type="text"
@@ -68,7 +74,7 @@ const HeroSection = () => {
         <div className="space-y-4">
           {filteredPosts.slice(0, 2).map((post, index) => (
             <article key={post.id} className="flex items-start p-4 bg-white shadow-md rounded-lg">
-              <img src={photoUrls[index]} alt={post.title} className="w-96 h-56 object-cover rounded-lg mr-4" />
+              <img src={photoUrls[index]} alt={post.title} className="w-48 h-32 object-cover rounded-lg mr-4" />
               <div className="flex flex-col w-full">
                 <h2 className="text-xl font-semibold text-gray-900 mb-2">{post.title}</h2>
                 <p className="text-gray-700">{post.body}</p>
@@ -82,7 +88,31 @@ const HeroSection = () => {
               </div>
             </article>
           ))}
+            <Splide
+            options={{
+              type: 'loop',
+              perPage: 1,
+              autoplay: true,
+              pauseOnHover: false,
+              gap: '1rem',
+              arrows: false,
+              pagination: true,
+            }}
+          >
+            {adsSecondCarousel.map((ad) => (
+              <SplideSlide key={ad.id}>
+                <Link to={ad.link}>
+                  <img
+                    src={ad.image}
+                    alt={`Ad ${ad.id}`}
+                    className="w-full h-96 mt-14 object-cover rounded-lg shadow-lg"
+                  />
+                </Link>
+              </SplideSlide>
+            ))}
+          </Splide>
         </div>
+
 
         <div className="grid grid-cols-1 gap-4">
           {filteredPosts.slice(2).map((post, index) => (

@@ -1,8 +1,9 @@
-import { useState } from 'react';
-// import googlepng from '../assets/google.png';
+import { useState, useContext } from 'react';
+import  AuthContext  from '../component/AuthContext';
 
 
 const SignIn = () => {
+  const { login } = useContext(AuthContext); // Use the login function from context
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [rememberMe, setRememberMe] = useState(false);
@@ -14,13 +15,14 @@ const SignIn = () => {
       localStorage.setItem('rememberMe', JSON.stringify({ email, password }));
     }
 
+    // Trigger the login function from context
+    login();
+
     alert(`Signing in with Email: ${email}`);
-    console.log(`Email: ${email}, Password: ${password}, Remember Me: ${rememberMe}`);
-    // Handle further sign-in logic here
   };
 
   return (
-    <div className="container flex justify-center mx-auto p-4 bg-white rounded-lg ">
+    <div className="container flex justify-center mx-auto p-4 bg-white rounded-lg">
       <div className="w-full max-w-md">
         <h2 className="text-2xl font-bold text-red-500 mb-4 text-center">Sign In</h2>
         <form onSubmit={handleSubmit} className="space-y-4">
@@ -54,24 +56,10 @@ const SignIn = () => {
               />
               <span className="ml-2 text-sm font-normal">Remember me</span>
             </label>
-            {/* <div className="text-sm font-normal">
-              Forgot Password?
-              <span className="text-blue-500 cursor-pointer ml-2 hover:text-indigo-950">
-                Click here
-              </span>
-            </div> */}
           </div>
-          <button type="submit" className="w-full bg-red-500 text-white py-2 px-4 rounded mx-auto">
+          <button type="submit" className="w-full bg-red-500 text-white py-2 px-4 rounded">
             Sign In
           </button>
-         
-          {/* <button
-            type="button"
-            className="flex items-center justify-center w-full bg-gray-500 text-white py-2 px-4 rounded mx-auto"
-          >
-             <img src={googlepng} alt="Google Icon" className="w-5 h-5 mr-2" />
-            Sign In with Google
-          </button> */}
         </form>
       </div>
     </div>
