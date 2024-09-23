@@ -14,7 +14,7 @@ function ArticlePage() {
   const [comments, setComments] = useState([]);
   const [newComment, setNewComment] = useState('');
   const [showCommentBox, setShowCommentBox] = useState(false);
-  const { isAuthenticated } = useContext(AuthContext); // Access the authentication status
+  const { isAuthenticated, setRedirectAfterLogin } = useContext(AuthContext);
   const [showAuthModal, setShowAuthModal] = useState(false);
 
   const sectionTitle = location.state?.sectionTitle || 'Hot Topics';
@@ -38,11 +38,15 @@ function ArticlePage() {
   }, [postId]);
 
   const handleCommentClick = () => {
+    // console.log(isAuthenticated)
     if (!isAuthenticated) {
-      setShowAuthModal(true);
+      // Save the current path for redirect after login
+      setRedirectAfterLogin(location.pathname);
+      setShowAuthModal(true); // Show login/register modal
     } else {
-      setShowCommentBox(!showCommentBox);
+      setShowCommentBox(!showCommentBox); // Open the comment box if authenticated
     }
+
   };
 
   const handleCommentSubmit = (e) => {
@@ -107,12 +111,12 @@ function ArticlePage() {
                   className="flex items-center text-gray-700 hover:text-red-500"
                   onClick={handleCommentClick}
                 >
-                  <FaComment className="mr-2" /> Comment
+             {!isAuthenticated &&  <div className='flex items-center'> <FaComment className="mr-2" /> Comment </div> } 
                 </button>
               </div>
             </div>
 
-            {showCommentBox && (
+            {isAuthenticated && (
               <div>
                 <h2 className="text-xl font-semibold text-gray-900 mb-4">Comments</h2>
 

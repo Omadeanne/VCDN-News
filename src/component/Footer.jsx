@@ -13,7 +13,7 @@ const Footer = () => {
             rel="noopener noreferrer"
             className="text-white hover:text-red-500 transition-colors duration-300"
           >
-            <FaFacebook size={20} className="sm:size-24 md:size-28 lg:size-8" />
+            <FaFacebook size={20} className="sm:size-8 md:size-8 lg:size-8" />
           </a>
           <a
             href="https://twitter.com/ejibachisom"
