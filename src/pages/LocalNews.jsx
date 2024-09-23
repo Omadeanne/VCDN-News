@@ -15,7 +15,6 @@ const LocalNews = () => {
   const [localPosts, setLocalPosts] = useState([]);
 
   useEffect(() => {
-    // Fetch local posts (you can replace this with a different API if needed)
     axios
       .get("https://jsonplaceholder.typicode.com/posts?_limit=6")
       .then((response) => setLocalPosts(response.data))

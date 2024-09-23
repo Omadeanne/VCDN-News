@@ -1,4 +1,4 @@
-import { createContext, useState} from 'react';
+import { createContext, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 const AuthContext = createContext();
@@ -7,35 +7,27 @@ const AuthContext = createContext();
 export const AuthProvider = ({ children }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [redirectAfterLogin, setRedirectAfterLogin] = useState(null);
+  const [user, setUser] = useState(null); // State to store user info (name, email)
   const navigate = useNavigate();
 
-  const login = () => {
-    // You can add your login logic here if needed
+  const login = (userData) => {
     setIsAuthenticated(true);
+    setUser(userData); // Store user data when logging in
     if (redirectAfterLogin) {
       navigate(redirectAfterLogin);
-      setRedirectAfterLogin(null); // Clear the stored redirect URL after using it
+      setRedirectAfterLogin(null);
     } else {
-      navigate('/'); // Default redirect if no saved page
+      navigate('/');
     }
   };
 
   const logout = () => {
     setIsAuthenticated(false);
+    setUser(null); 
   };
 
-  // Use useEffect to handle navigation when redirectAfterLogin changes
-  // useEffect(() => {
-  //   if (redirectAfterLogin) {
-  //     navigate(redirectAfterLogin);
-  //     setRedirectAfterLogin(null); // Clear the stored redirect URL after using it
-  //   } else {
-  //     navigate('/'); // Default redirect if no saved page
-  //   }
-  // }, [redirectAfterLogin, navigate]);
-
   return (
-    <AuthContext.Provider value={{ isAuthenticated, setIsAuthenticated, setRedirectAfterLogin, login, logout }}>
+    <AuthContext.Provider value={{ isAuthenticated, user, setRedirectAfterLogin, login, logout }}>
       {children}
     </AuthContext.Provider>
   );

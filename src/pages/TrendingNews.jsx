@@ -35,7 +35,6 @@ const TrendingNews = () => {
   const [trendingPosts, setTrendingPosts] = useState([]);
 
   useEffect(() => {
-    // Fetch trending posts
     axios.get('https://jsonplaceholder.typicode.com/posts?_limit=6')
       .then(response => setTrendingPosts(response.data))
       .catch(error => console.error('Error fetching data:', error));
@@ -43,7 +42,6 @@ const TrendingNews = () => {
 
   return (
     <div className="trending-news container mx-auto p-4 grid grid-cols-1 md:grid-cols-4 gap-4">
-      {/* Main Content: Trending News */}
       <div className="col-span-3">
         <h2 className="text-2xl font-bold text-red-500 mb-4">Trending News</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">

@@ -5,11 +5,11 @@ import 'react-toastify/dist/ReactToastify.css';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
 
 const SignIn = () => {
-  const { login } = useContext(AuthContext); // Use the login function from context
+  const { login } = useContext(AuthContext); 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [rememberMe, setRememberMe] = useState(false);
-  const [showPassword, setShowPassword] = useState(false); // State for showing password
+  const [showPassword, setShowPassword] = useState(false); 
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -18,11 +18,9 @@ const SignIn = () => {
       localStorage.setItem('rememberMe', JSON.stringify({ email, password }));
     }
 
-    // Trigger the login function from context
     login();
 
 
-    // Display toast notification
     toast.success(`Signing in with Email: ${email}`, {
       position: "top-right",
     });
@@ -30,7 +28,7 @@ const SignIn = () => {
 
   return (
     <>
-      <ToastContainer /> {/* This is where the toasts will be rendered */}
+      <ToastContainer /> 
       <div className="container flex justify-center mx-auto p-4 bg-white rounded-lg">
         <div className="w-full max-w-md">
           <h2 className="text-2xl font-bold text-red-500 mb-4 text-center">Sign In</h2>

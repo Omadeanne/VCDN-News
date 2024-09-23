@@ -12,7 +12,7 @@ function Navbar() {
   return (
     <nav className="bg-[#1F1F1F] p-4 sticky top-0 z-50">
       <div className="container mx-auto flex justify-between items-center">
-        {/* Logo Section */}
+        
         <div className="text-white text-3xl lg:text-3xl font-bold">
           <Link to="/" className="cursor-pointer">
             VCDN News

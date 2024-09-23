@@ -9,7 +9,6 @@ const HeroSection = () => {
   const [filteredPosts, setFilteredPosts] = useState([]);
   const [searchQuery, setSearchQuery] = useState('');
 
-  // specific URLs for images
   const photoUrls = [
     'https://dailypost.ng/wp-content/uploads/2019/07/Fuel-560x600.jpg',
     'https://dailypost.ng/wp-content/uploads/2023/06/Asiwaju-Bola-Tinubu-10-590x354.jpg',
@@ -80,7 +79,7 @@ const HeroSection = () => {
                 <p className="text-gray-700">{post.body}</p>
                 <Link
                   to={`/readMore/${post.id}`}
-                  state={{ imageUrl: photoUrls[index] }} // Pass the image URL as state
+                  state={{ imageUrl: photoUrls[index] }} 
                   className="text-blue-500 hover:underline mt-4"
                 >
                   Read More
@@ -123,7 +122,7 @@ const HeroSection = () => {
                 <p className="text-gray-700">{post.body}</p>
                 <Link
                   to={`/readMore/${post.id}`}
-                  state={{ imageUrl: photoUrls[index + 2] }} // Pass the image URL as state
+                  state={{ imageUrl: photoUrls[index + 2] }} 
                   className="text-blue-500 hover:underline mt-4"
                 >
                   Read More

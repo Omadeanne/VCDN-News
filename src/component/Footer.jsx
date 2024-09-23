@@ -33,14 +33,13 @@ const Footer = () => {
           </a>
         </div>
 
-        {/* Copyright Text */}
+        
         <div className="text-center flex-grow">
           <p className="text-sm sm:text-base md:text-lg">
             © VCDN News 2024, All Rights Reserved.
           </p>
         </div>
 
-        {/* Contact Us Section */}
         <div className="flex items-center space-x-2">
           <FaEnvelope className="sm:mr-2 md:mr-4" />
           <Link

@@ -7,7 +7,7 @@ const Layout = () => {
     <div className="flex flex-col min-h-screen">
       <Navbar />
       <main className="flex-1 container mx-auto mt-8">
-        <Outlet /> {/* This will render the page content based on the current route */}
+        <Outlet /> 
       </main>
       <Footer />
     </div>

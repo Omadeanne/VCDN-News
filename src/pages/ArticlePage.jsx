@@ -14,7 +14,7 @@ function ArticlePage() {
   const [comments, setComments] = useState([]);
   const [newComment, setNewComment] = useState('');
   const [showCommentBox, setShowCommentBox] = useState(false);
-  const { isAuthenticated, setRedirectAfterLogin } = useContext(AuthContext);
+  const { isAuthenticated, setRedirectAfterLogin, user: authUser } = useContext(AuthContext);
   const [showAuthModal, setShowAuthModal] = useState(false);
 
   const sectionTitle = location.state?.sectionTitle || 'Hot Topics';
@@ -38,34 +38,31 @@ function ArticlePage() {
   }, [postId]);
 
   const handleCommentClick = () => {
-    // console.log(isAuthenticated)
     if (!isAuthenticated) {
-      // Save the current path for redirect after login
       setRedirectAfterLogin(location.pathname);
-      setShowAuthModal(true); // Show login/register modal
+      setShowAuthModal(true);
     } else {
-      setShowCommentBox(!showCommentBox); // Open the comment box if authenticated
+      setShowCommentBox(!showCommentBox);
     }
-
   };
 
   const handleCommentSubmit = (e) => {
     e.preventDefault();
-    
+
     if (newComment.trim() === '') return;
 
-    // Add the new comment to the local state
     const newCommentObj = {
       postId: postId,
       body: newComment,
-      name: 'User', // Replace with the actual user name if available
-      email: 'user@example.com', // Replace with actual email if available
-      id: comments.length + 1, // Temporary ID for the new comment
+      name: authUser?.name || 'User', 
+      email: authUser?.email || 'user@example.com', 
+      id: comments.length + 1, 
     };
 
-    // Update the comments state locally
+
+
     setComments([...comments, newCommentObj]);
-    setNewComment(''); // Reset the input field
+    setNewComment('');
   };
 
   const closeModal = () => {
@@ -111,7 +108,7 @@ function ArticlePage() {
                   className="flex items-center text-gray-700 hover:text-red-500"
                   onClick={handleCommentClick}
                 >
-             {!isAuthenticated &&  <div className='flex items-center'> <FaComment className="mr-2" /> Comment </div> } 
+                  {!isAuthenticated && <div className='flex items-center'><FaComment className="mr-2" /> Comment </div>}
                 </button>
               </div>
             </div>

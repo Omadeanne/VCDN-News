@@ -26,7 +26,6 @@ const Register = () => {
       return;
     }
     toast.success('User account is registered successfully!');
-    // Registration logic here
   };
 
   return (

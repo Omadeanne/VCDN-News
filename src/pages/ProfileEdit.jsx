@@ -15,8 +15,7 @@ const ProfileEdit = ({ user }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Handle profile update logic here
-    console.log({ username, email, bio }); // For debugging purposes
+    console.log({ username, email, bio }); 
   };
 
   return (
